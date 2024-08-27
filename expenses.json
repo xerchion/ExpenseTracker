@@ -1,17 +1,26 @@
 [
     {
-        "description": "Dinner",
-        "amount": 50.0,
-        "date": "2024-08-25"
+        "description": "comida\u00e7\u00e7aaa",
+        "amount": 3333.0,
+        "date": "2024-08-27",
+        "category": "Uncategorized"
     },
     {
-        "description": "Dinner",
-        "amount": 50.0,
-        "date": "2024-08-25"
+        "description": "comida\u00e7\u00e7aaa",
+        "amount": 3333.0,
+        "date": "2024-08-27",
+        "category": "Uncategorized"
     },
     {
-        "description": "Dinner",
-        "amount": 50.0,
-        "date": "2024-08-25"
+        "description": "comida\u00e7\u00e7aaa",
+        "amount": 3333.0,
+        "date": "2024-08-27",
+        "category": "Casa"
+    },
+    {
+        "description": "comida\u00e7\u00e7aaa",
+        "amount": 3333.0,
+        "date": "2024-08-27",
+        "category": "Casa"
     }
 ]

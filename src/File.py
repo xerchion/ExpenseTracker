@@ -25,5 +25,5 @@ class File:
     def extract_data(self):
         with open(self.name) as file:
             data = json.load(file)
-            
+
         return data

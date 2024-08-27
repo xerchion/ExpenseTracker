@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from .Expense import Expense
 
 
@@ -37,6 +35,13 @@ class Tracker:
                 filtered.append(expense)
         return filtered
 
+    def filter_by_category(self, category):
+        filtered = []
+        for expense in self.storage_expense:
+            if category == expense.get_category():
+                filtered.append(expense.to_list())
+        return filtered if filtered else None
+
     def get_summary(self, data):
         total = 0
         for expense in data:
@@ -56,6 +61,7 @@ class Tracker:
                     element["description"],
                     element["amount"],
                     element["date"],
+                    element["category"],
                 )
             )
 

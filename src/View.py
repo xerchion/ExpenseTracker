@@ -53,8 +53,11 @@ class View:
             table.add_column(col, justify="left", style="cyan", no_wrap=True)
         # Añadir filas
         counter_row = 1
+
         for row in data:
-            table.add_row(str(counter_row), str(row[0]), str(row[1]), str(row[2]))
+            table.add_row(
+                str(counter_row), str(row[0]), str(row[1]), str(row[2]), row[3]
+            )
             counter_row += 1
 
         console.print(table)

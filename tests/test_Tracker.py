@@ -1,5 +1,3 @@
-from datetime import datetime
-
 import pytest
 
 from src.Expense import Expense
@@ -9,14 +7,19 @@ from src.Tracker import Tracker
 @pytest.fixture
 def tracker():
     data = [
-        {"description": "Lunch", "amount": 20, "date": "2024-08-01"},
-        {"description": "Coffee", "amount": 5, "date": "2024-08-05"},
+        {"description": "Lunch", "amount": 20, "date": "2024-08-01", "category": ""},
+        {
+            "description": "Coffee",
+            "amount": 5,
+            "date": "2024-08-05",
+            "category": "",
+        },
     ]
     return Tracker(data)
 
 
 def test_add_expense(tracker):
-    new_expense = Expense("Dinner", 30, "2024-08-10")
+    new_expense = Expense("Dinner", 30, "2024-08-10", "")
     expense_id = tracker.add_expense(new_expense)
     assert expense_id == 3  # El nuevo ID debe ser 3 (2 existentes + 1 nuevo)
     assert len(tracker.storage_expense) == 3
@@ -33,7 +36,10 @@ def test_summary(tracker):
 
 
 def test_get_all_expenses(tracker):
-    expected_summary = [["Lunch", 20, "2024-08-01"], ["Coffee", 5, "2024-08-05"]]
+    expected_summary = [
+        ["Lunch", 20, "2024-08-01", ""],
+        ["Coffee", 5, "2024-08-05", ""],
+    ]
     assert tracker.get_all_expenses() == expected_summary
 
 
@@ -55,7 +61,7 @@ def test_get_summary(tracker):
 
 def test_to_dict(tracker):
     expected_dict = [
-        {"description": "Lunch", "amount": 20, "date": "2024-08-01"},
-        {"description": "Coffee", "amount": 5, "date": "2024-08-05"},
+        {"description": "Lunch", "amount": 20, "date": "2024-08-01", "category": ""},
+        {"description": "Coffee", "amount": 5, "date": "2024-08-05", "category": ""},
     ]
     assert tracker.to_dict() == expected_dict

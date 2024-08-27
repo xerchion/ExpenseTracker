@@ -1,5 +1,10 @@
-# Evitar que en delete meta un id que no exista, dar msg de aviso...
+# TODO Allow users to set a budget for each month and show a warning when the user exceeds the budget.
 
+# TODO Allow users to export expenses to a CSV file.
+
+# TODO use update method in app
+
+# TODO si pide un list y no hay ninguno, indicarlo con un mensaje alert
 
 import calendar
 from datetime import datetime
@@ -8,6 +13,7 @@ import click
 
 from src.constants import (
     AMOUNT_HELP,
+    CATEGORY_HELP,
     DESCRIPTION_HELP,
     HEADER,
     ID_HELP,
@@ -30,17 +36,25 @@ class ExpenseTrackerApp:
         self.tracker = Tracker(self.file.extract_data())
         self.view = View()
 
-    def add_expense(self, description: str, amount: float) -> None:
+    def add_expense(self, description: str, amount: float, category: str) -> None:
         date = str(datetime.now().date())
-        expense = Expense(description, amount, date)
+        category = category if category else "Uncategorized"
+        expense = Expense(description, amount, date, category)
         id = self.tracker.add_expense(expense)
         self.file.save_data(self.tracker.to_dict())
         action = "added"
         self.view.ok(MESSAGE.format(action, id))
 
-    def list_expenses(self) -> str:
-        data = self.tracker.get_all_expenses()
-        self.view.show_as_table(TITLE, HEADER, data)
+    def list_expenses(self, category) -> str:
+        data = []
+        if category:
+            data = self.tracker.filter_by_category(category)
+        else:
+            data = self.tracker.get_all_expenses()
+        if data:
+            self.view.show_as_table(TITLE, HEADER, data)
+        else:
+            self.view.alert("No hay ningun gasto que mostrar")
 
     def get_summary(self, month: int) -> str:
         month = month if month else "all"
@@ -73,19 +87,21 @@ app = ExpenseTrackerApp()
 
 
 @click.command()
-@click.option("--description", type=click.STRING, help=DESCRIPTION_HELP)
+@click.option("--description", type=click.STRING, help=DESCRIPTION_HELP, required=True)
 @click.option("--amount", type=click.FLOAT, help=AMOUNT_HELP, required=True)
-def add(description: str, amount: float) -> None:
-    app.add_expense(description, amount)
+@click.option("--category", type=click.STRING, help=CATEGORY_HELP)
+def add(description: str, amount: float, category: str) -> None:
+    app.add_expense(description, amount, category)
 
 
 @click.command()
-def list() -> None:
-    app.list_expenses()
+@click.option("--category", type=click.STRING, help=CATEGORY_HELP)
+def list(category) -> None:
+    app.list_expenses(category)
 
 
 @click.command()
-@click.option("--month", type=click.INT, help=MONTH_HELP, required=False)
+@click.option("--month", type=click.INT, help=MONTH_HELP)
 def summary(month: int) -> None:
     app.get_summary(month)
 
