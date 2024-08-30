@@ -17,10 +17,6 @@ class Expense:
         self.date = date
         self.category = new_category
 
-    # No usado TODO borrar si no sirve
-    def to_string(self):
-        return self.description + str(self.amount) + self.date
-
     def to_list(self):
         list = []
         list.append(self.description)

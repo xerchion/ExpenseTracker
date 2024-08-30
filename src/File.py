@@ -2,12 +2,14 @@
 import json
 import os
 
+from .constants import STRUCT
+
 
 class File:
     def __init__(self, name) -> None:
         self.name = name
         if not self.exists():
-            self.save_data([])
+            self.save_data(STRUCT)
 
     def exists(self):
         return os.path.exists(self.name)
@@ -25,5 +27,4 @@ class File:
     def extract_data(self):
         with open(self.name) as file:
             data = json.load(file)
-
         return data

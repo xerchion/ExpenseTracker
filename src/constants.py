@@ -21,3 +21,8 @@ MONTH_HELP = "Month to sumary"
 
 # Action´s constants
 DELETE_MESSAGE = "Expense deleted successfully"
+
+# File
+STRUCT = {"expenses": [], "budgets": {}}
+
+BUDGET_OVER = "The budget for {} has been exceeded"

@@ -12,7 +12,7 @@ init()
 class View:
     def alert(self, msg: str) -> None:
         # Prints an alert message in red and resets color.
-        print("\n")
+
         print(Fore.RED + msg)
         self.reset()
 

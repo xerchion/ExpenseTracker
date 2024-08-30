@@ -1,11 +1,3 @@
-# TODO Allow users to set a budget for each month and show a warning when the user exceeds the budget.
-
-# TODO Allow users to export expenses to a CSV file.
-
-# TODO use update method in app
-
-# TODO si pide un list y no hay ninguno, indicarlo con un mensaje alert
-
 import calendar
 from datetime import datetime
 
@@ -13,6 +5,7 @@ import click
 
 from src.constants import (
     AMOUNT_HELP,
+    BUDGET_OVER,
     CATEGORY_HELP,
     DESCRIPTION_HELP,
     HEADER,
@@ -29,6 +22,10 @@ from src.File import File
 from src.Tracker import Tracker
 from src.View import View
 
+# extra funcionality TODO:
+#           TODO Allow users to export expenses to a CSV file.
+#           TODO use update method in app
+
 
 class ExpenseTrackerApp:
     def __init__(self) -> None:
@@ -38,12 +35,18 @@ class ExpenseTrackerApp:
 
     def add_expense(self, description: str, amount: float, category: str) -> None:
         date = str(datetime.now().date())
+        month = str(datetime.now().date().month)
+        # HACK Esto es cosa del objeto gastos, deberia encargarse esa clase
         category = category if category else "Uncategorized"
         expense = Expense(description, amount, date, category)
         id = self.tracker.add_expense(expense)
+
         self.file.save_data(self.tracker.to_dict())
         action = "added"
         self.view.ok(MESSAGE.format(action, id))
+        if self.tracker.is_over_budget(month):
+            month_name = calendar.month_name[int(month)]
+            self.view.alert(BUDGET_OVER.format(month_name))
 
     def list_expenses(self, category) -> str:
         data = []
@@ -73,6 +76,10 @@ class ExpenseTrackerApp:
             self.view.ok(MESSAGE.format(action, id))
         else:
             self.view.alert(INVALID_ID)
+
+    def budget(self, month: int, amount: float) -> None:
+        self.tracker.set_budget(month, amount)
+        self.file.save_data(self.tracker.to_dict())
 
     def is_id_valid(self, id):
         return id < self.tracker.get_size() + 1
@@ -112,11 +119,20 @@ def delete(id: int) -> None:
     app.delete_expense(id)
 
 
+@click.command()
+@click.option("--month", type=click.INT, help=MONTH_HELP, required=True)
+@click.option("--amount", type=click.FLOAT, help=AMOUNT_HELP, required=True)
+def budget(month: int, amount: float) -> None:
+    app.budget(month, amount)
+
+
 # Registramos los comandos al grupo cli
 cli.add_command(add)
 cli.add_command(list)
 cli.add_command(summary)
 cli.add_command(delete)
+cli.add_command(budget)
+
 
 if __name__ == "__main__":
     cli()
