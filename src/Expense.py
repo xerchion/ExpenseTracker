@@ -11,12 +11,6 @@ class Expense:
         self.category = category
         pass
 
-    def update(self, new_description, new_amount, date, new_category):
-        self.description = new_description
-        self.amount = new_amount
-        self.date = date
-        self.category = new_category
-
     def to_list(self):
         list = []
         list.append(self.description)
@@ -41,3 +35,12 @@ class Expense:
 
     def get_category(self):
         return self.category
+
+    def set_category(self, category):
+        self.category = category
+
+    def set_amount(self, amount):
+        self.amount = amount
+
+    def set_description(self, description):
+        self.description = description

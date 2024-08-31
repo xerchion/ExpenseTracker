@@ -2,7 +2,7 @@
     "expenses": [
         {
             "description": "comida",
-            "amount": 3333.0,
+            "amount": 4888.0,
             "date": "2024-08-30",
             "category": "Casa"
         },
@@ -10,121 +10,7 @@
             "description": "comida",
             "amount": 3333.0,
             "date": "2024-08-30",
-            "category": "Casa"
-        },
-        {
-            "description": "comida",
-            "amount": 3333.0,
-            "date": "2024-08-30",
-            "category": "Casa"
-        },
-        {
-            "description": "comida",
-            "amount": 3333.0,
-            "date": "2024-08-30",
-            "category": "Casa"
-        },
-        {
-            "description": "comida",
-            "amount": 3333.0,
-            "date": "2024-08-30",
-            "category": "Casa"
-        },
-        {
-            "description": "comida",
-            "amount": 3333.0,
-            "date": "2024-08-30",
-            "category": "Casa"
-        },
-        {
-            "description": "comida",
-            "amount": 3333.0,
-            "date": "2024-08-30",
-            "category": "Casa"
-        },
-        {
-            "description": "comida",
-            "amount": 3333.0,
-            "date": "2024-08-30",
-            "category": "Casa"
-        },
-        {
-            "description": "comida",
-            "amount": 3333.0,
-            "date": "2024-08-30",
-            "category": "Casa"
-        },
-        {
-            "description": "comida",
-            "amount": 3333.0,
-            "date": "2024-08-30",
-            "category": "Casa"
-        },
-        {
-            "description": "comida",
-            "amount": 3333.0,
-            "date": "2024-08-30",
-            "category": "Casa"
-        },
-        {
-            "description": "comida",
-            "amount": 3333.0,
-            "date": "2024-08-30",
-            "category": "Casa"
-        },
-        {
-            "description": "comida",
-            "amount": 3333.0,
-            "date": "2024-08-30",
-            "category": "Casa"
-        },
-        {
-            "description": "comida",
-            "amount": 3333.0,
-            "date": "2024-08-30",
-            "category": "Casa"
-        },
-        {
-            "description": "comida",
-            "amount": 3333.0,
-            "date": "2024-08-30",
-            "category": "Casa"
-        },
-        {
-            "description": "comida",
-            "amount": 3333.0,
-            "date": "2024-08-30",
-            "category": "Casa"
-        },
-        {
-            "description": "comida",
-            "amount": 3333.0,
-            "date": "2024-08-30",
-            "category": "Casa"
-        },
-        {
-            "description": "comida",
-            "amount": 3333.0,
-            "date": "2024-08-30",
-            "category": "Casa"
-        },
-        {
-            "description": "comida",
-            "amount": 3333.0,
-            "date": "2024-08-30",
-            "category": "Casa"
-        },
-        {
-            "description": "comida",
-            "amount": 3333.0,
-            "date": "2024-08-30",
-            "category": "Casa"
-        },
-        {
-            "description": "comida",
-            "amount": 3333.0,
-            "date": "2024-08-30",
-            "category": "Casa"
+            "category": "perro"
         }
     ],
     "budgets": {

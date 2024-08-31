@@ -22,10 +22,6 @@ from src.File import File
 from src.Tracker import Tracker
 from src.View import View
 
-# extra funcionality TODO:
-#           TODO Allow users to export expenses to a CSV file.
-#           TODO use update method in app
-
 
 class ExpenseTrackerApp:
     def __init__(self) -> None:
@@ -47,6 +43,23 @@ class ExpenseTrackerApp:
         if self.tracker.is_over_budget(month):
             month_name = calendar.month_name[int(month)]
             self.view.alert(BUDGET_OVER.format(month_name))
+
+    def update(self, id: int, description: str, amount: float, category: str) -> None:
+        date = str(datetime.now().date())
+        month = str(datetime.now().date().month)
+        expense = Expense(description, amount, date, category)
+        result, err = self.tracker.update_expense(id, expense)
+        if result:
+            self.file.save_data(self.tracker.to_dict())
+            action = "updated"
+            self.view.ok(MESSAGE.format(action, id))
+
+        if err:
+            self.view.alert(err)
+        else:
+            if self.tracker.is_over_budget(month):
+                month_name = calendar.month_name[int(month)]
+                self.view.alert(BUDGET_OVER.format(month_name))
 
     def list_expenses(self, category) -> str:
         data = []
@@ -82,7 +95,11 @@ class ExpenseTrackerApp:
         self.file.save_data(self.tracker.to_dict())
 
     def is_id_valid(self, id):
-        return id < self.tracker.get_size() + 1
+        return id < self.tracker.size() + 1
+
+    def export(self):
+        data = self.tracker.to_dict()
+        self.file.to_csv(data["expenses"])
 
 
 @click.group()
@@ -99,6 +116,15 @@ app = ExpenseTrackerApp()
 @click.option("--category", type=click.STRING, help=CATEGORY_HELP)
 def add(description: str, amount: float, category: str) -> None:
     app.add_expense(description, amount, category)
+
+
+@click.command()
+@click.option("--id", type=click.INT, help=ID_HELP, required=True)
+@click.option("--description", type=click.STRING, help=DESCRIPTION_HELP, required=False)
+@click.option("--amount", type=click.FLOAT, help=AMOUNT_HELP, required=False)
+@click.option("--category", type=click.STRING, help=CATEGORY_HELP, required=False)
+def update(id, description: str, amount: float, category: str) -> None:
+    app.update(id, description, amount, category)
 
 
 @click.command()
@@ -126,12 +152,19 @@ def budget(month: int, amount: float) -> None:
     app.budget(month, amount)
 
 
+@click.command()
+def export() -> None:
+    app.export()
+
+
 # Registramos los comandos al grupo cli
 cli.add_command(add)
+cli.add_command(update)
 cli.add_command(list)
 cli.add_command(summary)
 cli.add_command(delete)
 cli.add_command(budget)
+cli.add_command(export)
 
 
 if __name__ == "__main__":

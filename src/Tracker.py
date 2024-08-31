@@ -6,12 +6,34 @@ class Tracker:
         self.storage_expense = []
         self.budgets = {}
         self.extract_data(data)
+        self.err_msg = []
 
     def add_expense(self, expense: Expense) -> int:
         # Add expense and return his id
         self.storage_expense.append(expense)
         # returns pos + 1, position [0] is id=1 for user
         return len(self.storage_expense)
+
+    def update_expense(self, id: int, expense: Expense) -> int:
+        # comprobar id válido
+        # HACK el nombre de size no esta logrado, cambialo, es el size del storage
+        if id < 1 or id > self.size():
+            self.err_msg = "El id no corresponde con ningun gasto"
+            return False, self.err_msg
+        # comprobar si todos los campos están vacios
+        if not expense.category and not expense.amount and not expense.description:
+            self.err_msg = "Debe ingresar alguna caracteristica a modificar"
+            return False, self.err_msg
+        # buscar el gasto
+        old_expense = self.storage_expense[id - 1]
+        if expense.category:
+            old_expense.set_category(expense.category)
+        if expense.amount:
+            old_expense.set_amount(expense.amount)
+        if expense.description:
+            old_expense.set_description(expense.description)
+        self.storage_expense[id - 1] = old_expense
+        return True, None
 
     def delete_expense(self, id):
         del self.storage_expense[id - 1]
@@ -71,7 +93,7 @@ class Tracker:
                 )
             )
 
-    def get_size(self):
+    def size(self):
         return len(self.storage_expense)
 
     def get_budget_month(self, month):

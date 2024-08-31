@@ -1,4 +1,5 @@
 # version 1.1.0
+import csv
 import json
 import os
 
@@ -28,3 +29,17 @@ class File:
         with open(self.name) as file:
             data = json.load(file)
         return data
+
+    def to_csv(self, data):
+
+        # Escribir los datos de 'expenses' en un archivo CSV
+        with open("expenses.csv", mode="w", newline="") as archivo_csv:
+            # Obtener los nombres de las columnas
+            columnas = data[0].keys()
+            # Crear el escritor de CSV
+            writer = csv.DictWriter(archivo_csv, fieldnames=columnas)
+
+            # Escribir la cabecera
+            writer.writeheader()
+            # Escribir las filas
+            writer.writerows(data)
